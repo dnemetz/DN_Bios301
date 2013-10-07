@@ -1,0 +1,106 @@
+\documentclass{article}
+
+\begin{document}
+\title{Bios 301 - Assignment 1}
+\author{Danielle Nemetz}
+\maketitle
+\section{Working with data}
+\subsection{Problem 1}
+Load data set and name it cancer.df setting working directory to access data set
+<<>>=
+setwd("/Users/Danie/Bios301/datasets")
+cancer.df <- read.csv("cancer.csv")
+@
+\subsection{Problem 2}
+Determine number of rows in data frame
+<<>>=
+nrow(cancer.df)
+@
+Determine number of columns in data frame
+<<>>=
+ncol(cancer.df)
+@
+
+\subsection{Problem 3}
+Extract the names of the columns in 'cancer.df'
+<<>>=
+names(cancer.df)
+@
+Report value of the 3000th row in column 6
+<<>>=
+cancer.df[3000,6]
+@
+Report the contents of the 172nd row
+<<>>=
+cancer.df[172,]
+@
+Create a new column that is the incidence *rate* (per 100,000) for each row
+<<>>=
+cancer.df["incidence rate"] <- cancer.df$incidence / cancer.df$population * 100000
+@
+How many subgroups (rows) have a zero incidence rate?
+<<>>=
+nrow(subset(cancer.df, cancer.df$"incidence rate" == '0'))
+@
+Find the subgroup with the highest incidence rate
+<<>>=
+which.max(cancer.df$"incidence rate")
+@
+
+\section{Data types}
+Create the following vector: `x <- c("5","12","7")`. Which of the following commands will produce an error message? For each command, Either explain why they should be errors, or explain the non-erroneous result. 
+<<>>=
+x <- c("5","12","7")
+max(x)
+sort(x)
+sum(x)
+@
+The code max() and sort() operate by looking at the numerical representations of the first character in the string. 5 is observed as 5 in decimal, 12 is observed as 1 in decimal and 7 is observed as 7 in decimal. Therefore, the max() function returns 7 and sort() returns the order: 12, 5, 7.
+
+For the next two commands, either explain their results, or why they should produce errors
+<<>>=
+y <- c("5",7,12)
+y[2] + y[3]
+@
+Gives error because a vector can only have one mode. Because the first input is a character, the following two inputs are converted to characters as well. This is confirmed by the class function. Similar to the sum(x) function, the second command cannot be performed because two characters cannot be added by the binary operator.
+<<>>=
+class(y)
+@
+For the next two commands, either explain their results or why they should produce errors
+<<>>=
+z<-data.frame(z1 = "5", z2 = 7, z3 = 12)
+z[1,2] + z[1,3]
+class(z)
+  #The first calculation adds the first row, second value (7) to the first row, third value (12). Because both values are numeric, they can be added. 
+#3. 
+#1. 
+c(1:8,7:1)
+#2. 
+c(rep(1,1), rep(2,2), rep(3,3), rep(4,4), rep(5,5))
+#3. 
+m1 <- matrix(0, 3, 3)
+m1[lower.tri(m1)] <- 1
+m1[upper.tri(m1)] <-1
+m1[2,1] = 0
+m1
+
+#4. 
+m2 <- matrix(1:9, 3, 3, byrow = TRUE)
+m2[1,1] = 0
+m2[2,1] = 0
+m2[2,3] = 0
+m2[3,2] = 0
+m2[3,3] = 0
+m2
+
+#4. **Basic programming** Write an R program to calculate $h(x,n)$ using a `for` loop.
+
+h(x,n) = function(x,n){
+  for(i in 1:n){
+  x = x^n + x
+  }
+}
+@
+
+
+\end{document}
