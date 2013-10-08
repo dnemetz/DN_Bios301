@@ -155,7 +155,7 @@ h = function(x,n){
   return (S)
 }
 h(4,5) #Test of function with x=4, n=5
-1+sum(4^c(1:5)) #Actual
+1+sum(4^1 + 4^2 + 4^3 + 4^4 + 4^5) #Actual
 @
 
 
