@@ -1,0 +1,174 @@
+\documentclass{article}
+
+\definecolor{markcolor}{rgb}{0.1,0.7,0.7}
+
+
+\begin{document}
+\title{Bios 301: Assignment 1}
+\author{Danielle Nemetz}
+\maketitle
+\section{Working with data}
+In the \texttt{datasets} folder on the course GitHub repo, you will find a file called \texttt{cancer.csv}, which is a dataset in comma-separated values (csv) format. This is a large cancer incidence dataset that summarizes the incidence of different cancers for various subgroups. (18 points)
+
+\begin{enumerate}
+
+\item 
+Load the data set into R and make it a data frame called cancer.df. (2 points)
+<<>>=
+#setwd("/Users/Danie/Bios301/datasets") #setting working directory
+cancer.df <- read.csv("cancer.csv") #reading .csv file
+@
+\textcolor{markcolor}{please next time avoid using:}
+\begin{verbatim}
+setwd("/Users/Danie/Bios301/datasets") 
+\end{verbatim}
+\textcolor{markcolor}{in your homework because when I run this, it gives me an error (such folder does not exist on my computer)}
+
+\item 
+Determine the number of rows and columns in the data frame. (2)
+<<>>=
+nrow(cancer.df) #No. rows
+@
+<<>>=
+ncol(cancer.df) #No. columns
+@
+\item 
+Extract the names of the columns in cancer.df. (2)
+<<>>=
+names(cancer.df)
+@
+\item 
+Report the value of the 3000th row in column 6. (2)
+<<>>=
+cancer.df[3000,6]
+@
+\item 
+Report the contents of the 172nd row. (2)
+<<>>=
+cancer.df[172,]
+@
+\item 
+Create a new column that is the incidence \emph{rate} (per 100,000) for each row.(3)
+<<>>=
+cancer.df["incidence rate"] <- cancer.df$incidence / cancer.df$population * 100000
+@
+\item 
+How many subgroups (rows) have a zero incidence rate? (2)
+<<>>=
+nrow(subset(cancer.df, cancer.df$"incidence rate" == '0'))
+@
+\item 
+Find the subgroup with the highest incidence rate.(3)
+<<>>=
+which.max(cancer.df$"incidence rate")
+@
+\end{enumerate}
+
+\section{Data types}
+\begin{enumerate}
+\item 
+Create the following vector: \texttt{x \textless{}- c("5","12","7")}. Which of the following commands will produce an error message? For each command, Either explain why they should be errors, or explain the non-erroneous result. (6 points)
+\begin{verbatim}
+max(x)
+sort(x)
+sum(x)
+\end{verbatim}
+
+<<>>=
+x <- c("5","12","7")
+max(x)
+sort(x)
+sum(x)
+@
+The functions max and sort operate by looking at the numerical representations of the first character in the string. The character "5" is observed as 5 in decimal, "12" is observed as 1 in decimal and "7" is observed as 7 in decimal. Therefore, the max function returns 7 and the sort function returns the characters in ascending order by its numerical representations: 12, 5, 7. The last command results in an error because it only accepts numeric values.
+
+\item 
+For the next two commands, either explain their results, or why they should produce errors. (4 points)
+\begin{verbatim}
+y <- c("5",7,12)
+y[2] + y[3]
+\end{verbatim}
+<<>>=
+y <- c("5",7,12)
+y[2] + y[3]
+@
+The first command assigns a vector to y . The second command produces an error because a vector can only have one mode. Because the first input is a character, the following two inputs are converted to characters as well. This is confirmed by the class function. Similar to the sum function in the previous problem, the second command cannot be performed because two characters cannot be added by the binary operator.
+<<>>=
+class(y)
+@
+\item 
+For the next two commands, either explain their results, or why they should produce errors. (4 points)
+\begin{verbatim}
+z <- data.frame(z1="5",z2=7,z3=12)
+z[1,2] + z[1,3]
+\end{verbatim}
+
+<<>>=
+z<-data.frame(z1 = "5", z2 = 7, z3 = 12)
+z[1,2] + z[1,3]
+class(z)
+@
+The first command assigns a data frame containing a string and two numeric values to the variable z. The second command adds the first row, second value (7) to the first row, third value (12). Because both values are numeric (verified via class function), they can be added.
+\end{enumerate}
+
+\section{Data structures}
+Give R expressions that return the following matrices and vectors (\emph{i.e.} do not construct them manually). (3 points each, 12 total)
+\begin{enumerate}
+\item 
+    $(1,2,3,4,5,6,7,8,7,6,5,4,3,2,1)$
+<<>>=
+c(1:8,7:1)
+@
+\item
+    $(1,2,2,3,3,3,4,4,4,4,5,5,5,5,5)$
+<<>>=
+c(rep(1,1), rep(2,2), rep(3,3), rep(4,4), rep(5,5))
+@
+3.
+    $\left({ \begin{array}{ccc} 0 & 1 & 1 \\
+    0 & 0 & 1 \\
+    1 & 1 & 0
+    \end{array} }\right)$
+<<>>=    
+m1 <- matrix(0, 3, 3)
+m1[lower.tri(m1)] <- 1
+m1[upper.tri(m1)] <-1
+m1[2,1] = 0
+m1
+@
+4.
+    $\left({ \begin{array}{ccc} 0 & 2 & 3 \\
+    0 & 5 & 0 \\
+    7 & 0 & 0
+    \end{array} }\right)$
+
+<<>>=
+m2 <- matrix(1:9, 3, 3, byrow = TRUE)
+m2[1,1] = 0
+m2[2,1] = 0
+m2[2,3] = 0
+m2[3,2] = 0
+m2[3,3] = 0
+m2
+@
+\end{enumerate}
+
+\section{Basic programming} Let
+$h(x,n)=1+x+x^2+\ldots+x^n = \sum_{i=0}^n x_i$. Write an R program to calculate $h(x,n)$ using a \texttt{for} loop. (6 points)
+<<>>=
+h = function(x,n){
+  S = 1
+  for(i in 1:n){
+  S = x^i + S
+  }
+  return (S)
+}
+h(4,5) #Test of function with x=4, n=5
+1+sum(4^1 + 4^2 + 4^3 + 4^4 + 4^5) #Actual
+@
+
+\colorbox{markcolor}{Mark: 50}
+\textcolor{markcolor}{please see my comments for question 1. Also, next time, when submitting the homework, please place the data file (cancer.csv or whatever file is necessary) together with your homework files (into the same github folder). Let me know what questions you have (if any)}
+
+
+\end{document}
