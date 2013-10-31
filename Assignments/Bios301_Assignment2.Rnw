@@ -86,7 +86,7 @@ Import the HAART dataset (\texttt{haart.csv}) from the GitHub repository into R,
 \item
 Convert date columns into a usable (for analysis) format.
 <<>>=
-data <- read.table("~/Bios301/datasets/haart.csv", sep=",", head=T)
+data <- read.csv("../Datasets/haart.csv")
 
 #Converting init.date to date format & assigning it to a new variable, new_init.date
 new_init.date <- as.Date(data$init.date, format ="%m/%d/%y")
@@ -179,7 +179,7 @@ head(data_merged)
 \item
 The dataset \texttt{haart2.csv} contains a few additional observations for the same study. Import these and append them to your master dataset (if you were smart about how you coded the previous steps, cleaning the additional observations should be easy!).
 <<>>=
-data2 <- read.table("~/Bios301/datasets/haart2.csv", sep=",", head=T)
+data2 <- read.csv("../Datasets/haart2.csv")
 
 #Converting init.date to date format & assigning it to a new variable, new_init.date
 new_init.date <- as.Date(data2$init.date, format ="%m/%d/%y")
@@ -250,7 +250,7 @@ reg_drugs <- cbind(reg_drugs, sapply(data2$init.reg_list, function(x) drug %in% 
 }
 head(reg_drugs)
 
-reg_drugs <- data2.frame(reg_drugs)
+reg_drugs <- data.frame(reg_drugs)
 names(reg_drugs) <- all_drugs
 
 data2_merged <- cbind(data2, reg_drugs)
@@ -273,9 +273,6 @@ x <- sum(ceiling(6*runif(2)))
 The instructor should be able to easily import and run your program (function), and obtain output that clearly shows how the game progressed.
 
 <<>>=
-  #rolling one die, selecting number 1-6, n times, with replacement
-  
-  #sum of two die
   roll <- function(){
     x1 <- sum(ceiling(6*runif(2)))
     if (x1==7 || x1==11){
@@ -305,7 +302,6 @@ The instructor should be able to easily import and run your program (function), 
 
 roll ()
 
-#Remember to use test.rnw to find error
 
 @
 
