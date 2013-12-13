@@ -244,18 +244,18 @@ approximation improves as Î» gets large.
   the set $\\{1,3,5,\ldots,99\\}$. Execute the code and describe how the
   distribution of Z changes as Î» increases.
   <<>>=
-c <- seq(1, 29, by = 2)
-x <- matrix(0, 100, length(c)) 
-z <- matrix(0, 100, length(c))
+lambda <- seq(1, 29, by = 2)
+x <- matrix(0, 100, length(lambda)) 
+z <- matrix(0, 100, length(lambda))
 
 #Creating the x matrix:
-for (i in 1:length(c)){
-x[,i]=rpois(100,c[i])
+for (i in 1:length(lambda)){
+x[,i]=rpois(100,lambda[i])
 } 
 
 #Creating the z matrix:
-for (i in 1:length(c)){
-z[,i]=(x[,i]-c[i])/sqrt(c[i])
+for (i in 1:length(lambda)){
+z[,i]=(x[,i]-lambda[i])/sqrt(lambda[i])
 }
 
 mean(z)
