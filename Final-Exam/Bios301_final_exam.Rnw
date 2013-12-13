@@ -191,6 +191,7 @@ upper.bound<-NULL
 lower.bound<-NULL
 contains.mean<-NULL
 
+#for loop creates multiple bootstraps of a binom(50,0.3) and the corresponding confidence intervals
 for(i in 1:1000){
   my.sample <-rbinom(n=50, size=20, prob=0.3)
   y <- sample(my.sample, replace=TRUE)
@@ -206,7 +207,7 @@ for(i in 1:1000){
     contains.mean[i]<-0
 }
 
-
+#creating a data frame of mean, upper and lower bounds, and the indicator variable contains.mean
 Data <- data.frame(mean, lower.bound, upper.bound, contains.mean)
 colnames(Data) <- c("Sample Mean", "Lower Bound", "Upper Bound", "Contains Mean")
 mean_contains.mean<-mean(contains.mean)
